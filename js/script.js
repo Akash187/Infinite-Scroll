@@ -9,17 +9,8 @@ fetch("https://jsonplaceholder.typicode.com/photos")
 .then(function(result) {
     document.getElementById("loader").style.display = "none";
     total_images = result;
-    for (let index = start_index; index < end_index; index++) {
-        const element = total_images[index];
-        document.getElementById('cards').innerHTML += `
-            <div class="card" onClick="showModel(this)" id=${element.id}>
-                <img class="image" src="${element.thumbnailUrl}" id=${element.id} alt="random_image">
-                <div class="title">${element.title}</div>
-            </div>
-        `;
-    }
-    start_index += 25;
-    end_index += 25;
+    addCard();
+    
 })
 .catch(e => console.log(e));
 
@@ -35,20 +26,23 @@ window.onscroll = () => {
     let yOffset = window.pageYOffset; 
     let y = yOffset + window.innerHeight;
     if (y >= contentHeight && end_index < total_images.length) {
-        for (let index = start_index; index < end_index; index++) {
-            const element = total_images[index];
-            document.getElementById('cards').innerHTML += `
-                <div class="card" onClick="showModel(this)" id=${element.id}>
-                    <img class="image" src="${element.thumbnailUrl}" id=${element.id} alt="random_image">
-                    <div class="title">${element.title}</div>
-                </div>
-            `;
-        }
-        start_index += 25;
-        end_index += 25;
-
+        addCard();
     }
     
+}
+
+function addCard(){
+    for (let index = start_index; index < end_index; index++) {
+        const element = total_images[index];
+        document.getElementById('cards').innerHTML += `
+            <div class="card" onClick="showModel(this)" id=${element.id}>
+                <img class="image" src="${element.thumbnailUrl}" id=${element.id} alt="random_image">
+                <div class="title">${element.title}</div>
+            </div>
+        `;
+    }
+    start_index += 25;
+    end_index += 25;
 }
 
 // Get the modal
